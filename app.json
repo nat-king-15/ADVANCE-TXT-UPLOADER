@@ -1,0 +1,33 @@
+{
+    "name": "anonymous",
+    "description": "anonymous",
+    "repository": "https://github.com/nat-king-15/ADVANCE-TXT-UPLOADER",
+    "keywords": [
+        "telegram bot",
+        "pyrogram"
+    ],
+    "env": {
+        "API_ID": {
+            "description": "Get your telegram API ID from https://my.telegram.org",
+            "value": "6886135"
+        },
+        "API_HASH": {
+            "description": "Get your telegram API HASH from https://my.telegram.org",
+            "value": "ee20a1c8a8e44eaa638b7254cbcc3012"
+        },
+        "BOT_TOKEN": {
+            "description": "Get from BotFather",
+            "value": "8525803667:AAEjpylk_qaZ62O_gIZmch46S8VQNYxcY1M"
+        },
+        "AUTH_USERS": {
+            "description": "Admin/Owner/Friends ID Seperate by ','  Ex: 44578878,8878899",
+            "value": "2118600611"
+        }
+    },
+    "addons": [],
+    "buildpacks": [
+        {
+            "url": "heroku/python""url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git""url": "https://github.com/heroku/heroku-buildpack-activestorage-preview"
+        }
+    }
+}
