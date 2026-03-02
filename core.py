@@ -262,11 +262,21 @@ async def download_penpencilvod(url, cmd, name):
         return await default_download(url, cmd, name)
 
 async def download_video(url,cmd, name):
+    # Try with aria2c first
     download_cmd = f'{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args "aria2c: -x 16 -j 32"'
     global failed_counter
+    print(f"📥 Downloading: {name}")
     print(download_cmd)
     logging.info(download_cmd)
     k = subprocess.run(download_cmd, shell=True)
+    
+    # If aria2c failed, retry WITHOUT aria2c
+    if k.returncode != 0:
+        print(f"⚠️ aria2c download failed (code: {k.returncode}), retrying without aria2c...")
+        download_cmd_no_aria = f'{cmd} -R 25 --fragment-retries 25'
+        logging.info(f"Retry without aria2c: {download_cmd_no_aria}")
+        k = subprocess.run(download_cmd_no_aria, shell=True)
+        
     if "visionias" in cmd and k.returncode != 0 and failed_counter <= 10:
         failed_counter += 1
         await asyncio.sleep(5)
@@ -285,6 +295,7 @@ async def download_video(url,cmd, name):
         elif os.path.isfile(f"{name}.mp4.webm"):
             return f"{name}.mp4.webm"
 
+        print(f"⚠️ Downloaded file not found for: {name}")
         return name
     except FileNotFoundError as exc:
         return os.path.isfile.splitext[0] + "." + "mp4"
